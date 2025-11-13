@@ -90,5 +90,30 @@ namespace catalog_store.Controllers
             }
             return View(categoria);
         }
+        public async Task<IActionResult> Eliminar(int? id)
+        {
+            if (id == null || _context.Categorias == null)
+            {
+                return NotFound();
+            }
+            var categoria = await _context.Categorias
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (categoria == null)
+            {
+                return NotFound();
+            }
+            try
+            {
+                _context.Categorias.Remove(categoria);
+                await _context.SaveChangesAsync();
+                TempData["AlertaMessage"] = "Categoria eliminada correctamente!!!";
+
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(ex.Message, "Error al eliminar la categoria");
+            }
+            return RedirectToAction(nameof(Lista));
+        }
     }
 }

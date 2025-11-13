@@ -1,5 +1,9 @@
-using catalog_store.Models.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using catalog_store.Models.Data;
+using catalog_store.services;
+using catalog_store.Models.Entidades;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +14,8 @@ builder.Services.AddDbContext<CatalogStoreContex>(o =>
     o.UseSqlServer(builder.Configuration.GetConnectionString("CadenaSQL"));
 });
 
+builder.Services.AddScoped<IServicioImagen, ServicioImagen>();
+builder.Services.AddScoped<IServicioLista, ServicioLista>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
