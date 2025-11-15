@@ -5,7 +5,6 @@
 
 @section Estilos {
     <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
-
 }
 
 @if (TempData["ALertMessage"] != null)
@@ -16,21 +15,26 @@
 }
 
 <p>
-    <a onclick="showInPopup('@Url.Action("Crear", "Categorias", new { id = 0 }, Context.Request.Scheme)' ,
-    '')" class="btn btn-sm btn-primary text-white"><i class="fa fa-plus-circle fa-beat"></i> Agregar una categoria</a>
+    <a onclick="showInPopup('@Url.Action("Crear", "Productos", new { id = 0 }, Context.Request.Scheme)' ,
+    '')" class="btn btn-sm btn-primary text-white"><i class="fa fa-plus-circle"></i> Agregar un producto</a>
 </p>
 
 <div class="col-md-12">
     <div class="card">
         <div class=" card-header text-center">
-            <h5>Lista de Categorias</h5>
+            <h5>Lista de Productos</h5>
         </div>
         <div class=" card-body">
-            <table id="categoria" class="table table-hover table responsive table stripped">
+            <table id="producto" class="table table-hover table responsive table stripped">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Nombre</th>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Inventario</th>
+                        <th scope="col">Imagen</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -40,12 +44,19 @@
                         <tr>
                             <th scope="row">@item.Id</th>
                             <td> @Html.DisplayFor(modelItem => item.Nombre)</td>
+                            <td> @Html.DisplayFor(modelItem => item.Descripcion)</td>
+                            <td> @Html.DisplayFor(modelItem => item.Categoria.Nombre)</td>
+                            <td> @Html.DisplayFor(modelItem => item.Precio)</td>
+                            <td> @Html.DisplayFor(modelItem => item.Inventario)</td>
                             <td>
-                                <a onclick="showInPopup('@Url.Action("Editar", "Categorias", new { id = item.Id }, Context.Request.Scheme)' ,
-                        '')" class="btn btn-outline-warning btn-sm"><i class="fa fa-pencil-alt fa-beat"></i> </a>
+                                <img src="@item.URlFoto" width="100" height="100">
+                            </td>
+                            <td>
+                                <a onclick="showInPopup('@Url.Action("Editar", "Productos", new { id = item.Id }, Context.Request.Scheme)' ,
+                        '')" class="btn btn-outline-warning btn-sm"><i class="fa fa-pencil-alt"></i> </a>
                                 <button data-id="@item.Id" class="btn btn-outline-danger btn-sm deleteItem" data-bs-toggle="modal"
                                         data-bs-target="#deleteDialog">
-                                    <i class="fa fa-trash fa-beat"></i>
+                                    <i class="fa fa-trash"></i>
                                 </button>
                             </td>
                         </tr>
@@ -59,27 +70,25 @@
 <partial name="_MostrarModal" />
 <partial name="_ModalEliminar" />
 
+
 @section Scripts {
 
     <script src="~/js/showmodal.js"></script>
 
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
-
-
     <script>
         $(document).ready(function () {
-            $('#categoria').DataTable(
+            $('#producto').DataTable(
                 {
                     "language": {
                         url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
                     },
-
                 });
         });
     </script>
 
     <script>
-        sc_deleteDialog.openModal('deleteItem', true, 'btnYesDelete', '/Categorias/Eliminar/', false);
+        sc_deleteDialog.openModal('deleteItem', true, 'btnYesDelete', '/Productos/Eliminar/', false);
     </script>
 }
